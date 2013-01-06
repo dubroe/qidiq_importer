@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Url:</b>
+  <%= @feedback_group.url %>
+</p>
+
+<p>
+  <b>Api key:</b>
+  <%= @feedback_group.api_key %>
+</p>
+
+<p>
+  <b>Explanation:</b>
+  <%= @feedback_group.explanation %>
+</p>
+
+<p>
+  <b>Import POST URL:</b>
+  <%= @import_post_url %>
+</p>
+
+
+<%= link_to 'Edit', edit_feedback_group_path(@feedback_group) %> |
+<%= link_to 'Back', feedback_groups_path %>

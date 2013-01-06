@@ -1,0 +1,31 @@
+<% if current_user %>
+  <h1>Listing Feedback Groups</h1>
+
+  <table>
+    <tr>
+      <th>User</th>
+      <th>Url</th>
+      <th>Api key</th>
+      <th>Explanation</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @feedback_groups.each do |feedback_group| %>
+    <tr>
+      <td><%= feedback_group.user_id %></td>
+      <td><%= feedback_group.url %></td>
+      <td><%= feedback_group.api_key %></td>
+      <td><%= feedback_group.explanation %></td>
+      <td><%= link_to 'Show', feedback_group %></td>
+      <td><%= link_to 'Edit', edit_feedback_group_path(feedback_group) %></td>
+      <td><%= link_to 'Destroy', feedback_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Feedback group', new_feedback_group_path %>
+<% end %>

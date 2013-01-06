@@ -1,0 +1,29 @@
+<%= form_for(@feedback_group) do |f| %>
+  <% if @feedback_group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@feedback_group.errors.count, "error") %> prohibited this feedback_group from being saved:</h2>
+
+      <ul>
+      <% @feedback_group.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :api_key %><br />
+    <%= f.text_field :api_key %>
+  </div>
+  <div class="field">
+    <%= f.label :explanation %><br />
+    <%= f.text_field :explanation %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
