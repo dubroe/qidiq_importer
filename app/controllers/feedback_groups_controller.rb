@@ -40,7 +40,13 @@ class FeedbackGroupsController < ApplicationController
   def call_api_import
     feedback_group = FeedbackGroup.find(params[:id])
     result_string = feedback_group.import_user params[:email]
-    result_json = JSON.parse(result_string).symbolize_keys
-    render text: result_json[:error_code]
+    result_json = JSON.parse(result_string).symbolize_keys]
+    if result_json[:error_code].to_i.zero?
+      render_text = "#{params[:email]} was successfully added to the #{feedback_group.url} qidiq feedback group."
+    else
+      render_text = "Sorry, we were unable to add #{params[:email]} to the #{feedback_group.url} qidiq feedback group."
+    end
+    render_text += "Click #{link_to 'here', params[:redirect_url]} to go back.".html_safe if params[:redirect_url].present?
+    render text: render_text
   end
 end
