@@ -49,7 +49,7 @@ class FeedbackGroupsController < ApplicationController
     if params[:redirect_url]
       first_char = params[:redirect_url].index('?').nil? ? '?' : '&'
       redirect_to "#{params[:redirect_url]}#{first_char}result_code=#{result_code}&email=#{params[:email]}"
-    elsif result_code.zero?
+    elsif result_code.to_i.zero?
       render text: "#{params[:email]} successfully added to the #{feedback_group.url} qidiq feedback group."
     else
       render text: "Failed to add #{params[:email]} to the #{feedback_group.url} qidiq feedback group."
