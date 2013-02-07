@@ -38,8 +38,8 @@ class FeedbackGroupsController < ApplicationController
   end
   
   def call_api_import
+    feedback_group = FeedbackGroup.find(params[:id])
     if /^[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/.match(params[:email])
-      feedback_group = FeedbackGroup.find(params[:id])
       result_string = feedback_group.import_user params[:email]
       result_json = JSON.parse(result_string).symbolize_keys
       result_code = result_json[:error_code]
@@ -49,8 +49,10 @@ class FeedbackGroupsController < ApplicationController
     if params[:redirect_url]
       first_char = params[:redirect_url].index('?').nil? ? '?' : '&'
       redirect_to "#{params[:redirect_url]}#{first_char}result_code=#{result_code}&email=#{params[:email]}"
+    elsif result_code.zero?
+      render text: "#{params[:email]} successfully added to the #{feedback_group.url} qidiq feedback group."
     else
-      render text: result_code
+      render text: "Failed to add #{params[:email]} to the #{feedback_group.url} qidiq feedback group."
     end
   end
 end
