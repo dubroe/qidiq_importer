@@ -46,7 +46,7 @@ class FeedbackGroupsController < ApplicationController
     else
       render_text = "Sorry, we were unable to add #{params[:email]} to the #{feedback_group.url} qidiq feedback group."
     end
-    render_text += " Click #{link_to 'here', params[:redirect_url]} to go back.".html_safe if params[:redirect_url].present?
+    render_text += " You can head on back now to #{params[:redirect_url]}." if params[:redirect_url].present?
     render text: render_text
   end
 end
