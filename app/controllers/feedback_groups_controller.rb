@@ -38,14 +38,19 @@ class FeedbackGroupsController < ApplicationController
   end
   
   def call_api_import
-    feedback_group = FeedbackGroup.find(params[:id])
-    result_string = feedback_group.import_user params[:email]
-    result_json = JSON.parse(result_string).symbolize_keys
+    if /^[a-zA-Z0-9_\.\+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/.match(params[:email])
+      feedback_group = FeedbackGroup.find(params[:id])
+      result_string = feedback_group.import_user params[:email]
+      result_json = JSON.parse(result_string).symbolize_keys
+      result_code = result_json[:error_code]
+    else
+      result_code = '7'
+    end
     if params[:redirect_url]
       first_char = params[:redirect_url].index('?').nil? ? '?' : '&'
-      redirect_to "#{params[:redirect_url]}#{first_char}result_code=#{result_json[:error_code]}&email=#{params[:email]}"
+      redirect_to "#{params[:redirect_url]}#{first_char}result_code=#{result_code}&email=#{params[:email]}"
     else
-      render text: result_json[:error_code]
+      render text: result_code
     end
   end
 end
