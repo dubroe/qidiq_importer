@@ -41,12 +41,11 @@ class FeedbackGroupsController < ApplicationController
     feedback_group = FeedbackGroup.find(params[:id])
     result_string = feedback_group.import_user params[:email]
     result_json = JSON.parse(result_string).symbolize_keys
-    if result_json[:error_code].to_i.zero?
-      render_text = "#{params[:email]} was successfully added to the #{feedback_group.url} qidiq feedback group."
+    if params[:redirect_url]
+      first_char = params[:redirect_url].index('?').nil? ? '?' : '&'
+      redirect_to "#{params[:redirect_url]}#{first_char}result_code=#{result_json[:error_code]}&email=#{params[:email]}"
     else
-      render_text = "Sorry, we were unable to add #{params[:email]} to the #{feedback_group.url} qidiq feedback group."
+      render text: result_json[:error_code]
     end
-    render_text += " You can head on back now to #{params[:redirect_url]}." if params[:redirect_url].present?
-    render text: render_text
   end
 end
